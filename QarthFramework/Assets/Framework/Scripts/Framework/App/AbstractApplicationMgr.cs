@@ -4,6 +4,7 @@
 //  Blog:        http://blog.csdn.net/snowcoldgame
 //  Author:      SnowCold
 //  E-mail:      snowcold.ouyang@gmail.com
+
 using System;
 using UnityEngine;
 using System.Collections;
@@ -11,80 +12,141 @@ using System.Collections.Generic;
 
 namespace Qarth
 {
-    public class AbstractApplicationMgr<T> : TMonoSingleton<T> where T : TMonoSingleton<T>
+    public abstract class AbstractApplicationMgr<T> : TMonoSingleton<T> where T : TMonoSingleton<T>
     {
-        public Action onApplicationUpdate = null;
-        public Action onApplicationOnGUI = null;
+        private Action m_OnApplicationUpdate = null;
+        private Action m_OnApplicationOnGUI = null;
+        private Action<bool> m_OnApplicationPause = null;
+        private Action<bool> m_OnApplicationFocus = null;
+        private Action m_OnApplicationQuit = null;
 
         protected void Start()
         {
-            StartApp();
+            StartCoroutine(StartApp());
         }
 
-        protected void StartApp()
+        protected IEnumerator StartApp()
         {
             I18Mgr.S.Init();
-            InitThirdLibConfig();
-            InitAppEnvironment();
+            yield return InitFramework();
+            yield return InitThirdLibConfig();
+            yield return InitAppEnvironment();
             StartGame();
         }
 
         #region 子类实现
 
-        protected virtual void InitThirdLibConfig()
-        {
+        protected abstract void ShowLogoPanel();
 
-        }
+        protected abstract IEnumerator InitThirdLibConfig();
 
-        protected virtual void InitAppEnvironment()
-        {
+        protected abstract IEnumerator InitAppEnvironment();
 
-        }
+        protected abstract IEnumerator InitFramework();
 
-        protected virtual void StartGame()
-        {
-
-        }
+        protected abstract void StartGame();
 
         #endregion
 
-        void OnApplicationQuit()
+        #region 注册事件
+        
+        public void AddListenerOnGUI(Action action)
         {
-            MonoSingleton.isApplicationQuit = true;
-
-            EventSystem.S.Send(EngineEventID.OnApplicationQuit);
+            m_OnApplicationOnGUI += action;
         }
+        
+        public void RemoveListenerOnGUI(Action action)
+        {
+            m_OnApplicationOnGUI -= action;
+        }
+
+        public void AddListenerOnApplicationUpdate(Action action)
+        {
+            m_OnApplicationUpdate += action;
+        }
+        
+        public void RemoveListenerOnApplicationUpdate(Action action)
+        {
+            m_OnApplicationUpdate -= action;
+        }
+        
+        public void AddListenerOnApplicationPause(Action<bool> action)
+        {
+            m_OnApplicationPause += action;
+        }
+        
+        public void RemoveListenerOnApplicationPause(Action<bool> action)
+        {
+            m_OnApplicationPause -= action;
+        }
+        
+        public void AddListenerOnApplicationFocus(Action<bool> action)
+        {
+            m_OnApplicationFocus += action;
+        }
+
+        public void RemoveListenerOnApplicationFocus(Action<bool> action)
+        {
+            m_OnApplicationFocus -= action;
+        }
+        
+        public void AddListenerOnApplicationQuit(Action action)
+        {
+            m_OnApplicationQuit += action;
+        }
+        
+        public void RemoveListenerOnApplicationQuit(Action action)
+        {
+            m_OnApplicationQuit -= action;
+        }
+        #endregion
+
+        #region 生命周期函数
 
         void OnApplicationPause(bool pauseStatus)
         {
-            EventSystem.S.Send(EngineEventID.OnApplicationPauseChange, pauseStatus);
-            EventSystem.S.Send(EngineEventID.OnAfterApplicationPauseChange, pauseStatus);
+            if (m_OnApplicationPause != null)
+            {
+                m_OnApplicationFocus(pauseStatus);
+            }
         }
 
         void OnApplicationFocus(bool focusStatus)
         {
-            EventSystem.S.Send(EngineEventID.OnApplicationFocusChange, focusStatus);
-            EventSystem.S.Send(EngineEventID.OnAfterApplicationFocusChange, focusStatus);
+            if (m_OnApplicationFocus != null)
+            {
+                m_OnApplicationFocus(focusStatus);
+            }
         }
 
         void Update()
         {
-            if (onApplicationUpdate != null)
+            if (m_OnApplicationUpdate != null)
             {
-                onApplicationUpdate();
+                m_OnApplicationUpdate();
             }
+        }
+
+        private void OnDestroy()
+        {
+            isApplicationQuit = true;
+            if (m_OnApplicationQuit != null)
+            {
+                m_OnApplicationQuit();
+            }
+            EventSystem.S.Send(EngineEventID.OnApplicationQuit);
         }
 
 #if UNITY_EDITOR
         void OnGUI()
         {
-            if (onApplicationOnGUI != null)
+            if (m_OnApplicationOnGUI != null)
             {
-                onApplicationOnGUI();
-            } 
+                m_OnApplicationOnGUI();
+            }
         }
 #endif
-        
 
+        #endregion
     }
 }

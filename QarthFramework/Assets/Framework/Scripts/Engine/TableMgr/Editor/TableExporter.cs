@@ -194,10 +194,10 @@ namespace Qarth.Editor
 
             process.Start();
             string outPutstr = process.StandardOutput.ReadToEnd();
-            // if (!string.IsNullOrEmpty(outPutstr))
-            // {
-            //     Log.i(outPutstr);
-            // }
+            if (!string.IsNullOrEmpty(outPutstr))
+            {
+                Log.i(outPutstr);
+            }
 
             process.WaitForExit();
             process.Close();

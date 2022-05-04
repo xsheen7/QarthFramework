@@ -53,7 +53,7 @@ namespace Qarth
         public string m_BuildLrgDataLinuxShell = "table/output_xc.sh";
 
         [SerializeField]
-        private string m_ProjectToolsFolder = "/../../../Tools/";
+        private string m_ProjectToolsFolder = "/../Tools/";
         #endregion
 
         #endregion

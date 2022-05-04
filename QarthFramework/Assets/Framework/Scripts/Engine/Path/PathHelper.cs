@@ -6,10 +6,8 @@
 //  E-mail:      snowcold.ouyang@gmail.com
 using System;
 using UnityEngine;
-
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
+
 
 namespace Qarth
 {
@@ -51,6 +49,26 @@ namespace Qarth
         {
             FileInfo info = new FileInfo(filePath);
             return info.Directory.FullName + "/";
+        }
+
+        //resources
+        public static string GetResourcePath()
+        {
+            return Application.dataPath + "/Resources";
+        }
+
+        //相对于Assets/的路径
+        public static string GetAssetsRelatedPath(string path)
+        {
+            if (!string.IsNullOrEmpty(path))
+            {
+                int index = path.IndexOf("Assets/", StringComparison.Ordinal);
+                path = path.Substring(index);
+                return path;
+            }
+
+            Log.e("path is empty");
+            return "";
         }
     }
 }

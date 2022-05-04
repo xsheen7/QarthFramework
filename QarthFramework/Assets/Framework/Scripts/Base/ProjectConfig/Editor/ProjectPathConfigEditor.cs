@@ -6,9 +6,6 @@
 //  E-mail:      snowcold.ouyang@gmail.com
 using System;
 using UnityEngine;
-
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 
@@ -20,18 +17,21 @@ namespace Qarth.Editor
         [MenuItem("Assets/Qarth/Config/Build ProjectConfig")]
         public static void BuildProjectConfig()
         {
-
             ProjectPathConfig data = null;
-            string folderPath = EditorUtils.GetSelectedDirAssetsPath();
-            string spriteDataPath = folderPath + "/ProjectConfig.asset";
-
-            data = AssetDatabase.LoadAssetAtPath<ProjectPathConfig>(spriteDataPath);
-            if (data == null)
+            string folderPath = PathHelper.GetResourcePath()+"/Config";
+            if (!Directory.Exists(folderPath))
             {
-                data = ScriptableObject.CreateInstance<ProjectPathConfig>();
-                AssetDatabase.CreateAsset(data, spriteDataPath);
+                Directory.CreateDirectory(folderPath);
             }
-            Log.i("Create Project Config In Folder:" + spriteDataPath);
+            string configPath = folderPath + "/ProjectConfig.asset";
+            if (!File.Exists(configPath))
+            {
+                configPath = PathHelper.GetAssetsRelatedPath(configPath);
+                data = ScriptableObject.CreateInstance<ProjectPathConfig>();
+                AssetDatabase.CreateAsset(data, configPath);
+                Log.i("Create Project Config In Folder:" + configPath);
+            }
+            
             EditorUtility.SetDirty(data);
             AssetDatabase.SaveAssets();
         }
@@ -39,7 +39,7 @@ namespace Qarth.Editor
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            if (GUILayout.Button("Sync"))
+            if (GUILayout.Button("Reset"))
             {
                 ProjectPathConfig.Reset();
             }

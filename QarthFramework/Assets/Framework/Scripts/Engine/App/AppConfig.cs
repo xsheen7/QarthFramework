@@ -14,7 +14,6 @@ namespace Qarth
     public enum APP_MODE
     {
         DebugMode,
-        TestMode,
         ReleaseMode,
     }
 
@@ -107,8 +106,6 @@ namespace Qarth
         [SerializeField] private bool m_IsGuideActive = false;
         [SerializeField] private bool m_IsResUpdateActive = false;
         [SerializeField] private string m_ResUpdateVersion;
-        [SerializeField] private string m_WeMobAppKey;
-        [SerializeField] private string m_WeMobChannelID;
         [SerializeField] private string m_WebsocketUri;
         #endregion
 
@@ -170,17 +167,7 @@ namespace Qarth
         {
             get { return m_ResUpdateVersion; }
         }
-
-        public string WeMobAppkey
-        {
-            get { return m_WeMobAppKey; }
-        }
-
-        public string WeMobChannelID
-        {
-            get { return m_WeMobChannelID; }
-        }
-
+        
         public string websocketUri
         {
             get { return m_WebsocketUri; }

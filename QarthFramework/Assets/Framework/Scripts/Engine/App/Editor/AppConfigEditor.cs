@@ -20,16 +20,21 @@ namespace Qarth.Editor
         public static void BuildAppConfig()
         {
             AppConfig data = null;
-            string folderPath = EditorUtils.GetSelectedDirAssetsPath();
-            string spriteDataPath = folderPath + "/AppConfig.asset";
-
-            data = AssetDatabase.LoadAssetAtPath<AppConfig>(spriteDataPath);
-            if (data == null)
+            string folderPath = PathHelper.GetResourcePath()+"/Config";
+            if (!Directory.Exists(folderPath))
             {
-                data = ScriptableObject.CreateInstance<AppConfig>();
-                AssetDatabase.CreateAsset(data, spriteDataPath);
+                Directory.CreateDirectory(folderPath);
             }
-            Log.i("Create App Config In Folder:" + spriteDataPath);
+
+            string configPath = folderPath + "/AppConfig.asset";
+            if (!File.Exists(configPath))
+            {
+                configPath = PathHelper.GetAssetsRelatedPath(configPath);
+                data = ScriptableObject.CreateInstance<AppConfig>();
+                AssetDatabase.CreateAsset(data, configPath);
+                Log.i("Create Project Config In Folder:" + configPath);
+            }
+            Log.i("Create App Config In Folder:" + configPath);
             EditorUtility.SetDirty(data);
             AssetDatabase.SaveAssets();
         }

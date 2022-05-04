@@ -169,7 +169,7 @@ namespace Qarth
             return isNewPackage;
         }
 
-        public void InitResMgr()
+        public void Init()
         {
             Log.i("Init[ResMgr]");
 #if UNITY_EDITOR
