@@ -42,7 +42,7 @@ public class ApplicationMgr : AbstractApplicationMgr<ApplicationMgr>
         ResMgr.S.Init();
         UIDataModule.RegisterUIPanel();
         yield return TableModule.LoadTable();
-        //ShowLogoPanel();
+        ShowLogoPanel();
         Log.i(TDArenaConfigTable.GetData(1).range);
         yield return null;
     }

@@ -162,7 +162,7 @@ namespace Qarth
         private static Dictionary<int, UIData> m_UIDataMap = new Dictionary<int, UIData>();
         private static Dictionary<string, UIData> m_UINameDataMap = new Dictionary<string, UIData>();
 
-        private static bool s_IsABMode = false;
+        private static bool s_IsABMode = true;
 
         public static void SetABMode(bool abMode)
         {

@@ -29,6 +29,7 @@ namespace Qarth
             return name;
         }
 
+        //获取文件或者文件夹名字
         public static string FullAssetPath2Name(string fullPath)
         {
             string name = FileNameWithoutSuffix(fullPath);

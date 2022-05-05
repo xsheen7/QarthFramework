@@ -7,6 +7,7 @@ public class UIDataModule
 {
     public static void RegisterUIPanel()
     {
-        UIDataTable.AddPanelData(UIID.LogoPanel, null, "LogoPanel/LogoPanel");
+        //uiid 和界面的预制体名字
+        UIDataTable.AddPanelData(UIID.LogoPanel, null, "LogoPanel");
     }
 }

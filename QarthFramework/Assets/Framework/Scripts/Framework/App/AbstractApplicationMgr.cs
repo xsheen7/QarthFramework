@@ -25,12 +25,20 @@ namespace Qarth
             StartCoroutine(StartApp());
         }
 
+        private float m_LoadTime;
         protected IEnumerator StartApp()
         {
             I18Mgr.S.Init();
+            m_LoadTime = Time.time;
             yield return InitFramework();
+            Log.i("init framework time: " + (Time.time - m_LoadTime));
+            m_LoadTime = Time.time;
             yield return InitThirdLibConfig();
+            Log.i("int third lib time: " + (Time.time - m_LoadTime));
+            m_LoadTime = Time.time;
             yield return InitAppEnvironment();
+            Log.i("init app env time: " + (Time.time - m_LoadTime));
+            m_LoadTime = Time.time;
             StartGame();
         }
 
