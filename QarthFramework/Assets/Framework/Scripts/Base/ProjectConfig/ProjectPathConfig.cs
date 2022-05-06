@@ -4,6 +4,7 @@
 //  Blog:        http://blog.csdn.net/snowcoldgame
 //  Author:      SnowCold
 //  E-mail:      snowcold.ouyang@gmail.com
+
 using System;
 using UnityEngine;
 using System.Collections;
@@ -21,39 +22,29 @@ namespace Qarth
 
         #region 序列化区域
 
-        [SerializeField]
-        private string m_AppConfigPath = "Resources/Config/AppConfig";
+        [SerializeField] private string m_AppConfigPath = "Resources/Config/AppConfig";
+        [SerializeField] private string m_UIRootPath = "Resources/UI/UIRoot";
+        [SerializeField] private string m_ABRelativePath = "Assets/";
+        [SerializeField] private string m_ExportABConfigFile = "asset_bindle_config.bin";
+        [SerializeField] private string m_TableFolder = "config/";
 
-        [SerializeField]
-        private string m_UIRootPath = "Resources/UI/UIRoot";
-        [SerializeField]
-        private string m_ABRelativePath = "Assets/";
-        [SerializeField]
-        private string m_ExportABConfigFile = "asset_bindle_config.bin";
-
-        [SerializeField]
-        private string m_TableFolder = "config/";
+        [SerializeField] private string m_ExportTableCSPath = "Assets/Scripts/TableModule/Tables/";
+        [SerializeField] private string m_ExportTableTSVPath = "../Product/TableGen/";
+        [SerializeField] private string m_TableSourcePath = "../Product/TableSources/";
+        [SerializeField] public string m_TableBuildIgnorePattern = "(I18N/.*)|(StringsTable.*)";
 
         #region 配置工具相关
-        [SerializeField]
-        private string m_BuildProtoCSharpWinShell = "proto/output_proto_csharp.bat";
-        [SerializeField]
-        private string m_BuildCSharpWinShell = "table/output_code_csharp.bat";
-        [SerializeField]
-        public string m_BuildTxtDataWinShell = "table/output_txt.bat";
-        [SerializeField]
-        public string m_BuildLrgDataWinShell = "table/output_xc.bat";
-        [SerializeField]
-        public string m_BuildCSharpLinuxShell = "table/output_code_csharp.sh";
-        [SerializeField]
-        public string m_BuildTxtDataLinuxShell = "table/output_txt.sh";
-        [SerializeField]
-        public string m_BuildTxtDataUnixShell = "table/output_txt_unix.sh";
-        [SerializeField]
-        public string m_BuildLrgDataLinuxShell = "table/output_xc.sh";
 
-        [SerializeField]
-        private string m_ProjectToolsFolder = "/../Tools/";
+        [SerializeField] private string m_BuildProtoCSharpWinShell = "proto/output_proto_csharp.bat";
+        [SerializeField] private string m_BuildCSharpWinShell = "table/output_code_csharp.bat";
+        [SerializeField] public string m_BuildTxtDataWinShell = "table/output_txt.bat";
+        [SerializeField] public string m_BuildLrgDataWinShell = "table/output_xc.bat";
+        [SerializeField] public string m_BuildCSharpLinuxShell = "table/output_code_csharp.sh";
+        [SerializeField] public string m_BuildTxtDataLinuxShell = "table/output_txt.sh";
+        [SerializeField] public string m_BuildTxtDataUnixShell = "table/output_txt_unix.sh";
+        [SerializeField] public string m_BuildLrgDataLinuxShell = "table/output_xc.sh";
+        [SerializeField] private string m_ProjectToolsFolder = "/../Tools/";
+
         #endregion
 
         #endregion
@@ -108,26 +99,17 @@ namespace Qarth
 
         public static string appConfigPath
         {
-            get
-            {
-                return S.m_AppConfigPath;
-            }
+            get { return S.m_AppConfigPath; }
         }
 
         public static string uiRootPath
         {
-            get
-            {
-                return S.m_UIRootPath;
-            }
+            get { return S.m_UIRootPath; }
         }
 
         public static string tableFolder
         {
-            get
-            {
-                return S.m_TableFolder;
-            }
+            get { return S.m_TableFolder; }
         }
 
         #region AssetBundle 相关
@@ -173,9 +155,43 @@ namespace Qarth
         {
             get { return S.m_ExportABConfigFile; }
         }
+
+        public static string exportTableCSPath
+        {
+            get
+            {
+                return S.m_ExportTableCSPath;
+            }
+        }
+
+        public static string exportTableTSVPath
+        {
+            get
+            {
+                return S.m_ExportTableTSVPath;
+            }
+        }
+
+        public static string tableSourcePath
+        {
+            get
+            {
+                return S.m_TableSourcePath;
+            }
+        }
+
+        public static string tableBuildIgnorePattern
+        {
+            get
+            {
+                return S.m_TableBuildIgnorePattern;
+            }
+        }
+
         #endregion
 
         #region 配置工具相关
+
         public static string buildCSharpWinShell
         {
             get { return S.m_BuildCSharpWinShell; }
@@ -185,6 +201,7 @@ namespace Qarth
         {
             get { return S.m_BuildTxtDataWinShell; }
         }
+
         public static string buildLrgDataWinShell
         {
             get { return S.m_BuildLrgDataWinShell; }
@@ -194,18 +211,22 @@ namespace Qarth
         {
             get { return S.m_BuildCSharpLinuxShell; }
         }
+
         public static string buildTxtDataLinuxShell
         {
             get { return S.m_BuildTxtDataLinuxShell; }
         }
+
         public static string buildTxtDataUnixShell
         {
             get { return S.m_BuildTxtDataUnixShell; }
         }
+
         public static string buildLrgDataLinuxShell
         {
             get { return S.m_BuildLrgDataLinuxShell; }
         }
+
         public static string buildProtoCSharpWinShell
         {
             get { return S.m_BuildProtoCSharpWinShell; }
@@ -215,6 +236,7 @@ namespace Qarth
         {
             get { return Application.dataPath + S.m_ProjectToolsFolder; }
         }
+
         #endregion
     }
 }

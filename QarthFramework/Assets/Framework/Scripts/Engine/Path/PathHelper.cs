@@ -58,6 +58,11 @@ namespace Qarth
             return Application.dataPath + "/Resources";
         }
 
+        public static string GetStreamingAssetsPath()
+        {
+            return Application.streamingAssetsPath +"/";
+        }
+
         //相对于Assets/的路径
         public static string GetAssetsRelatedPath(string path)
         {

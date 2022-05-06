@@ -4,26 +4,29 @@ using GameWish.Game;
 using Qarth;
 using UnityEngine;
 
-public class TableModule
+namespace GameWish.Game
 {
-    public static IEnumerator LoadTable()
+    public class TableModule
     {
-        InitPreLoadTableMetaData();
-        yield return ApplicationMgr.S.StartCoroutine(TableMgr.S.PreReadAll(HandleTableLoadFinish));
-    }
-    
-    
-    protected static void InitPreLoadTableMetaData()
-    {
-        TableConfig.preLoadTableArray = new TDTableMetaData[]
+        public static IEnumerator LoadTable()
         {
-            TDLanguageTable.GetLanguageMetaData(),
-            TDArenaConfigTable.metaData,
-        };
-    }
-    
-    private static void HandleTableLoadFinish()
-    {
-        
+            InitPreLoadTableMetaData();
+            yield return ApplicationMgr.S.StartCoroutine(TableMgr.S.PreReadAll(HandleTableLoadFinish));
+        }
+
+
+        protected static void InitPreLoadTableMetaData()
+        {
+            TableConfig.preLoadTableArray = new TDTableMetaData[]
+            {
+                TDLanguageTable.GetLanguageMetaData(),
+                TDArenaConfigTable.metaData,
+            };
+        }
+
+        private static void HandleTableLoadFinish()
+        {
+
+        }
     }
 }
