@@ -1,53 +1,44 @@
-﻿//  Desc:        Framework For Game Develop with Unity3d
-//  Copyright:   Copyright (C) 2017 SnowCold. All rights reserved.
-//  WebSite:     https://github.com/SnowCold/Qarth
-//  Blog:        http://blog.csdn.net/snowcoldgame
-//  Author:      SnowCold
-//  E-mail:      snowcold.ouyang@gmail.com
-using UnityEngine;
-using System.Collections;
 using System;
-
+using System.Collections;
+using System.Collections.Generic;
 namespace Qarth
 {
-    public class TableMgr : TSingleton<TableMgr>
+    public class TableModule
     {
         // 表格读取进度
-        private float       m_TableReadProgress;
-        private bool        m_IsLoading = false;
-
-        public float tableReadProgress
+        private static float       m_TableReadProgress;
+        private static bool        m_IsLoading = false;
+    
+        public static float tableReadProgress
         {
             get { return m_TableReadProgress; }
         }
-
-        public bool isLoading
+    
+        public static bool isLoading
         {
             get { return m_IsLoading; }
         }
-
-        /// <summary>
-        /// 预先读取Language Const表
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerator PreReadAll(Action onLoadFinish)
+    
+        //预加载表格资源
+        
+        public static IEnumerator PreLoadTable(Action onLoadFinish)
         {
             TableReadThreadWork readWork = CreateTableReadJobs(TableConfig.preLoadTableArray);
-
+    
             readWork.Start();
             while (readWork.IsDone == false)
             {
                 yield return 0;
             }
-
+    
             if (onLoadFinish != null)
             {
                 onLoadFinish();
             }
             yield return 0;
         }
-
-        public IEnumerator ReadAll(TDTableMetaData[] dataArray, Action onLoadFinish)
+        
+        public static IEnumerator LoadTable(TDTableMetaData[] dataArray, Action onLoadFinish)
         {
             m_IsLoading = true;
             TableReadThreadWork readWork = CreateTableReadJobs(dataArray);
@@ -57,28 +48,17 @@ namespace Qarth
                 m_TableReadProgress = readWork.finishedCount * 1.0f / readWork.readMaxCount * 1.0f;
                 yield return 0;
             }
-
+    
             m_IsLoading = false;
-
+    
             if (onLoadFinish != null)
             {
                 onLoadFinish();
             }
             yield return 0;
         }
-
-        public void ReloadAll()
-        {
-            TableReadThreadWork readWork = CreateTableReadJobs(TableConfig.preLoadTableArray, TableConfig.delayLoadTableArray);
-            readWork.Start();
-            // 阻塞Reload
-            while (readWork.IsDone == false)
-            {
-
-            }
-        }
-
-        private TableReadThreadWork CreateTableReadJobs(TDTableMetaData[] tableArrayA, TDTableMetaData[] tableArrayB = null)
+        
+        private static TableReadThreadWork CreateTableReadJobs(TDTableMetaData[] tableArrayA, TDTableMetaData[] tableArrayB = null)
         {
             TableReadThreadWork readWork = new TableReadThreadWork();
             if (tableArrayA != null)
@@ -88,7 +68,7 @@ namespace Qarth
                     readWork.AddJob(tableArrayA[i].tableName, tableArrayA[i].onParse);
                 }
             }
-
+    
             if (tableArrayB != null)
             {
                 for (int i = 0; i < tableArrayB.Length; ++i)
@@ -96,8 +76,9 @@ namespace Qarth
                     readWork.AddJob(tableArrayB[i].tableName, tableArrayA[i].onParse);
                 }
             }
-
+    
             return readWork;
         }
     }
 }
+

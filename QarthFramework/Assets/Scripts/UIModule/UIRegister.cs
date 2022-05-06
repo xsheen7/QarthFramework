@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Qarth;
 
-public class UIDataModule
+public class UIRegister
 {
     public static void RegisterUIPanel()
     {

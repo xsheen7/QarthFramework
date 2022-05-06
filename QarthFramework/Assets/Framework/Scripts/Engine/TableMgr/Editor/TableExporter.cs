@@ -13,6 +13,7 @@ using System.Threading;
 using System.IO;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using Debug = UnityEngine.Debug;
 
 namespace Qarth.Editor
 {
@@ -173,11 +174,6 @@ namespace Qarth.Editor
             process.StartInfo.Arguments = path + " arg1 arg2";
 
             process.Start();
-            string outPutstr = process.StandardOutput.ReadToEnd();
-            // if (!string.IsNullOrEmpty(outPutstr))
-            // {
-            //     Log.i(outPutstr);
-            // }
 
             process.WaitForExit();
             process.Close();
@@ -193,13 +189,9 @@ namespace Qarth.Editor
             process.StartInfo.RedirectStandardOutput = true;
 
             process.Start();
-            string outPutstr = process.StandardOutput.ReadToEnd();
-            if (!string.IsNullOrEmpty(outPutstr))
-            {
-                Log.i(outPutstr);
-            }
 
             process.WaitForExit();
+
             process.Close();
         }
     }
