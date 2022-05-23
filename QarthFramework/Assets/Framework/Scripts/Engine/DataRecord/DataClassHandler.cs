@@ -10,15 +10,22 @@ namespace Qarth
 {
     public abstract class IDataClass : DataDirtyHandler
     {
-        public virtual void InitWithEmptyData()
+        protected DataDirtyRecorder m_DirtyRecorder = new DataDirtyRecorder();
+
+        public IDataClass()
         {
-
+            SetDirtyRecorder(m_DirtyRecorder);
         }
+        
+        //初始值
+        public abstract void InitWithDefaultData();
 
-        public virtual void OnDataLoadFinish()
-        {
+        //每日是否需要更新存档数据
+        public abstract void RefreshDataByDay();
 
-        }
+        //存档加载结束后处理
+        public abstract void OnDataLoadFinish();
+
     }
 
     public class DataDirtyRecorder
@@ -79,13 +86,18 @@ namespace Qarth
     {
         public static bool ENCRY = true;
 
-        protected static T m_Data;
-        protected static string m_FileName;
-        protected static bool m_AutoSave = false;
-        protected static int m_AutoSaveTimer;
-        protected static string m_FileNameKey;
+        protected T m_Data;
+        protected string m_FileName;
+        protected bool m_AutoSave = false;
+        protected int m_AutoSaveTimer;
+        protected string m_FileNameKey;
 
-        public static T data
+        public DataClassHandler()
+        {
+            Load();
+        }
+
+        public T data
         {
             get { return m_Data; }
         }
@@ -100,7 +112,7 @@ namespace Qarth
             autoSave = false;
         }
 
-        public static void SetFileNameKey(string key)
+        public void SetFileNameKey(string key)
         {
             m_FileNameKey = key;
         }
@@ -116,7 +128,7 @@ namespace Qarth
             return string.Format("{0}{1}", persistentDataPath4Recorder, fileName);
         }
 
-        public static void Load()
+        public void Load()
         {
             if (m_Data != null)
             {
@@ -131,7 +143,7 @@ namespace Qarth
             if (m_Data == null)
             {
                 m_Data = new T();
-                m_Data.InitWithEmptyData();
+                m_Data.InitWithDefaultData();
                 m_Data.SetDataDirty();
             }
 
@@ -146,7 +158,7 @@ namespace Qarth
             }
 
             m_Data = new T();
-            m_Data.InitWithEmptyData();
+            m_Data.InitWithDefaultData();
             m_Data.SetDataDirty();
 
             m_Data.OnDataLoadFinish();
@@ -155,13 +167,13 @@ namespace Qarth
         public void ResetAsNew()
         {
             m_Data = new T();
-            m_Data.InitWithEmptyData();
+            m_Data.InitWithDefaultData();
             m_Data.SetDataDirty();
 
             m_Data.OnDataLoadFinish();
         }
 
-        public static void Save(bool force = false)
+        public void Save(bool force = false)
         {
             if (m_Data == null)
             {
@@ -175,7 +187,7 @@ namespace Qarth
             }
         }
 
-        protected static string dataFilePath
+        protected string dataFilePath
         {
             get
             {
@@ -215,8 +227,8 @@ namespace Qarth
 
                 if (m_AutoSave)
                 {
-                    EventSystem.S.Register(EngineEventID.OnAfterApplicationPauseChange, OnAutoSaveChecker);
-                    EventSystem.S.Register(EngineEventID.OnApplicationQuit, OnApplicationQuit);
+                    EnumEventSystem.S.Register(EngineEventID.OnAfterApplicationPauseChange, OnAppStateChecker);
+                    EnumEventSystem.S.Register(EngineEventID.OnApplicationQuit, OnApplicationQuit);
 
                     if (m_AutoSaveTimer <= 0)
                     {
@@ -225,8 +237,8 @@ namespace Qarth
                 }
                 else
                 {
-                    EventSystem.S.UnRegister(EngineEventID.OnAfterApplicationPauseChange, OnAutoSaveChecker);
-                    EventSystem.S.UnRegister(EngineEventID.OnApplicationQuit, OnApplicationQuit);
+                    EnumEventSystem.S.UnRegister(EngineEventID.OnAfterApplicationPauseChange, OnAppStateChecker);
+                    EnumEventSystem.S.UnRegister(EngineEventID.OnApplicationQuit, OnApplicationQuit);
 
                     if (m_AutoSaveTimer > 0)
                     {
@@ -242,7 +254,7 @@ namespace Qarth
             Save();
         }
 
-        protected void OnAutoSaveChecker(int key, params object[] args)
+        protected void OnAppStateChecker(int key, params object[] args)
         {
             bool pause = (bool)args[0];
             if (pause)
@@ -255,7 +267,7 @@ namespace Qarth
         {
             Save();
         }
-
+ 
         private static string m_PersistentDataPath4Recorder;
         // 外部资源目录
         public static string persistentDataPath4Recorder

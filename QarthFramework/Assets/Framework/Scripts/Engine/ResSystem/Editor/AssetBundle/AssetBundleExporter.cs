@@ -117,7 +117,7 @@ namespace Qarth.Editor
 #region 构建AssetBundle
 
 #region 构建所有AssetBundle
-        [MenuItem("Assets/Qarth/Asset/构建AB[全局])")]
+        [MenuItem("Assets/Qarth/Res/构建AB[全局])")]
         public static void BuildAllAssetBundles()
         {
             Log.i("Start Build All AssetBundles.");
@@ -148,7 +148,7 @@ namespace Qarth.Editor
 
 #region 指定具体文件构建
 
-        [MenuItem("Assets/Qarth/Asset/构建AB[当前文件夹]")]
+        [MenuItem("Assets/Qarth/Res/构建AB[当前文件夹]")]
         public static void BuildAssetBundlesInSelectFolder()
         {
             string selectPath = EditorUtils.GetSelectedDirAssetsPath();//.CurrentSelectFolder;
@@ -285,7 +285,7 @@ namespace Qarth.Editor
 
 #region 构建 AssetDataTable
 
-        [MenuItem("Assets/Qarth/Asset/生成Asset清单")]
+        [MenuItem("Assets/Qarth/Res/生成Asset清单")]
         public static void BuildDataTable()
         {
             Log.i("Start BuildAssetDataTable!");
@@ -398,16 +398,16 @@ namespace Qarth.Editor
         }
         */
 
-        [MenuItem("Assets/Qarth/Asset/生成Table清单")]
-        public static void BuildTableConfigTable()
-        {
-            Log.i("Start BuildTableConfigTable!");
-            AssetDataTable table = new AssetDataTable();
-            string folder = Application.dataPath + "/" + ProjectPathConfig.DEFAULT_TABLE_EXPORT_PATH;
-            ProcessTableConfig(table, folder);
-
-            table.Save(FilePath.streamingAssetsPath);
-        }
+        // [MenuItem("Assets/Qarth/Res/生成Table清单")]
+        // public static void BuildTableConfigTable()
+        // {
+        //     Log.i("Start BuildTableConfigTable!");
+        //     AssetDataTable table = new AssetDataTable();
+        //     string folder = Application.dataPath + "/" + ProjectPathConfig.DEFAULT_TABLE_EXPORT_PATH;
+        //     ProcessTableConfig(table, folder);
+        //
+        //     table.Save(FilePath.streamingAssetsPath);
+        // }
 
         private static string AssetPath2Name(string assetPath)
         {

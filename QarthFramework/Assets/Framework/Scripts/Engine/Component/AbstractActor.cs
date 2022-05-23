@@ -20,17 +20,17 @@ namespace Qarth
         private bool            m_HasStart = false;
         private List<ICom>      m_ComponentList = new List<ICom>();
         private List<ICom>      m_UpdateComList = new List<ICom>();
-        private EventSystem     m_EventSystem;
+        private EnumEventSystem     m_EventSystem;
 
 #region Public
 
-        public EventSystem eventSystem
+        public EnumEventSystem eventSystem
         {
             get
             {
                 if (m_EventSystem == null)
                 {
-                    m_EventSystem = ObjectPool<EventSystem>.S.Allocate();
+                    m_EventSystem = ObjectPool<EnumEventSystem>.S.Allocate();
                 }
                 return m_EventSystem;
             }

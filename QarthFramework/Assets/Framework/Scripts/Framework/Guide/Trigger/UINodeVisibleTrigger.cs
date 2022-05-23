@@ -24,7 +24,7 @@ namespace Qarth
 		public void Start(Action<bool, ITrigger> l)
 		{
 			m_Listener = l;
-			EventSystem.S.Register(EngineEventID.OnPanelUpdate, OnPanelUpdte);
+			EnumEventSystem.S.Register(EngineEventID.OnPanelUpdate, OnPanelUpdte);
 
 			OnPanelUpdte(0);
 		}
@@ -32,7 +32,7 @@ namespace Qarth
 		public void Stop()
 		{
 			m_Listener = null;
-			EventSystem.S.UnRegister(EngineEventID.OnPanelUpdate, OnPanelUpdte);
+			EnumEventSystem.S.UnRegister(EngineEventID.OnPanelUpdate, OnPanelUpdte);
 		}
 
 		public bool isReady

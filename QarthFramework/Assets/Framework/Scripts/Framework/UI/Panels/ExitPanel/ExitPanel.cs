@@ -21,7 +21,7 @@ namespace Qarth
 
         protected override void OnOpen()
         {
-            EventSystem.S.Send(EngineEventID.OnNeedHideBanner);
+            EnumEventSystem.S.Send(EngineEventID.OnNeedHideBanner);
         }
 
         protected override void OnPanelOpen(params object[] args)
@@ -31,7 +31,7 @@ namespace Qarth
 
         protected override void OnClose()
         {
-            EventSystem.S.Send(EngineEventID.OnNeedShowBanner);
+            EnumEventSystem.S.Send(EngineEventID.OnNeedShowBanner);
         }
 
         private void OnClickOKButton()

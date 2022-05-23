@@ -34,13 +34,13 @@ namespace Qarth
         public void Start(Action<bool, ITrigger> l)
         {
             m_Listener = l;
-            EventSystem.S.Register(m_EventID, OnEventListener);
+            EnumEventSystem.S.Register(m_EventID, OnEventListener);
         }
 
         public void Stop()
         {
             m_Listener = null;
-            EventSystem.S.UnRegister(m_EventID, OnEventListener);
+            EnumEventSystem.S.UnRegister(m_EventID, OnEventListener);
         }
 
         public bool isReady

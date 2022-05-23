@@ -54,13 +54,13 @@ namespace Qarth
             {
                 return;
             }
-            EventSystem.S.Register(EngineEventID.OnWorldHandBeClick,OnClicked);
+            EnumEventSystem.S.Register(EngineEventID.OnWorldHandBeClick,OnClicked);
             UIMgr.S.OpenTopPanel(EngineUI.GuideHandPanel, null, targetNode, m_Offset);
         }
 
         private void OnClicked(int key, object[] param)
         {
-            EventSystem.S.UnRegister(EngineEventID.OnWorldHandBeClick, OnClicked);
+            EnumEventSystem.S.UnRegister(EngineEventID.OnWorldHandBeClick, OnClicked);
             FinishStep();
         }
 

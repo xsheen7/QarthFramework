@@ -159,7 +159,7 @@ namespace Qarth
 
         public void SendEvent<K>(K key, params object[] args) where K : IConvertible
         {
-            EventSystem.S.Send(key, args);
+            EnumEventSystem.S.Send(key, args);
         }
 
         public void RegisterEvent<K>(K key, OnEvent callback) where K : IConvertible
@@ -167,7 +167,7 @@ namespace Qarth
             if (m_EventRegisterHelper == null)
             {
                 m_EventRegisterHelper = ObjectPool<EventRegisterHelper>.S.Allocate();
-                m_EventRegisterHelper.eventSystem = EventSystem.S;
+                m_EventRegisterHelper.eventSystem = EnumEventSystem.S;
             }
 
             m_EventRegisterHelper.Register(key, callback);

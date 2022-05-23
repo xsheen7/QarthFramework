@@ -17,12 +17,12 @@ namespace Qarth
     public delegate void OnEvent(int key, params object[] param);
     #endregion
 
-    public class EventSystem : TSingleton<EventSystem>, ICacheAble
+    public class EnumEventSystem : TSingleton<EnumEventSystem>, ICacheAble
     {
         private bool        m_CacheFlag = false;
         private Dictionary<int, ListenerWrap> m_AllListenerMap = new Dictionary<int, ListenerWrap>(50);
 
-        public EventSystem()
+        public EnumEventSystem()
         {
             
         }

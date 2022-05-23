@@ -44,7 +44,7 @@ namespace Qarth
                 UIMgr.S.uiEventSystem.Register(m_Panel.GetParentPanelID(), OnParentPanelEvent);
             }
 
-            EventSystem.S.Register(EngineEventID.OnPanelUpdate, OnPanelUpdate);
+            EnumEventSystem.S.Register(EngineEventID.OnPanelUpdate, OnPanelUpdate);
         }
 
         protected void OnDestroy()
@@ -59,7 +59,7 @@ namespace Qarth
                 UIMgr.S.uiEventSystem.UnRegister(m_Panel.GetParentPanelID(), OnParentPanelEvent);
             }
 
-            EventSystem.S.UnRegister(EngineEventID.OnPanelUpdate, OnPanelUpdate);
+            EnumEventSystem.S.UnRegister(EngineEventID.OnPanelUpdate, OnPanelUpdate);
         }
 
         private void OnPanelUpdate(int key, params object[] args)

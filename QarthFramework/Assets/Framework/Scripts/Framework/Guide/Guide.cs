@@ -60,7 +60,7 @@ namespace Qarth
 			}
 
             Log.i("#Guide Start:" + m_GuideId);
-						EventSystem.S.Send(EngineEventID.OnGuideIdChange, m_GuideId);
+						EnumEventSystem.S.Send(EngineEventID.OnGuideIdChange, m_GuideId);
 
 			TrackNextStep ();
 

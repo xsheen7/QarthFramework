@@ -30,7 +30,7 @@ namespace Qarth
             {
                 if (m_Asset is GameObject)
                 {
-
+                
                 }
                 else
                 {

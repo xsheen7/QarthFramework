@@ -13,14 +13,14 @@ namespace Qarth
 
         private void Awake()
         {
-            EventSystem.S.Register(EngineEventID.OnShareCaptureBegin, OnShareCaptureBegin);
-            EventSystem.S.Register(EngineEventID.OnShareCaptureEnd, OnShareCaptureEnd);
+            EnumEventSystem.S.Register(EngineEventID.OnShareCaptureBegin, OnShareCaptureBegin);
+            EnumEventSystem.S.Register(EngineEventID.OnShareCaptureEnd, OnShareCaptureEnd);
         }
 
         private void OnDestroy()
         {
-            EventSystem.S.UnRegister(EngineEventID.OnShareCaptureBegin, OnShareCaptureBegin);
-            EventSystem.S.UnRegister(EngineEventID.OnShareCaptureEnd, OnShareCaptureEnd);
+            EnumEventSystem.S.UnRegister(EngineEventID.OnShareCaptureBegin, OnShareCaptureBegin);
+            EnumEventSystem.S.UnRegister(EngineEventID.OnShareCaptureEnd, OnShareCaptureEnd);
         }
 
         private void OnShareCaptureBegin(int key, params object[] args)

@@ -106,13 +106,13 @@ namespace Qarth
         {
             Log.e("WebSocket is now Open!");
             m_ConcentCount++;
-            EventSystem.S.Send(EngineEventID.OnWebSocketOpen, m_ConcentCount);
+            EnumEventSystem.S.Send(EngineEventID.OnWebSocketOpen, m_ConcentCount);
         }
 
         void OnMessageRecv(WebSocket webSocket, string message)
         {
             Log.e("OnMessageRecv: msg={0}", message);
-            EventSystem.S.Send(EngineEventID.OnWebsocketStringMsg, message);
+            EnumEventSystem.S.Send(EngineEventID.OnWebsocketStringMsg, message);
         }
 
         void OnBinaryRecv(WebSocket webSocket, byte[] data)
@@ -125,7 +125,7 @@ namespace Qarth
             }
             else
             {
-                EventSystem.S.Send(EngineEventID.OnWebsocketBinaryRecv, pkg.body);
+                EnumEventSystem.S.Send(EngineEventID.OnWebsocketBinaryRecv, pkg.body);
             }
         }
 
@@ -150,7 +150,7 @@ namespace Qarth
             webSocket = null;
             DestroySocket();
             //Connect();
-            EventSystem.S.Send(EngineEventID.OnWebsocketError);
+            EnumEventSystem.S.Send(EngineEventID.OnWebsocketError);
             Timer.S.CallWithDelay(() =>
             {
                 WebsocketMgr.S.Connect();

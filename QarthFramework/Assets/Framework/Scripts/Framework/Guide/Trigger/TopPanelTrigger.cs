@@ -34,13 +34,13 @@ namespace Qarth
             }
 
             m_Listener = l;
-            EventSystem.S.Register(EngineEventID.OnPanelUpdate, OnPanelUpdte);
+            EnumEventSystem.S.Register(EngineEventID.OnPanelUpdate, OnPanelUpdte);
         }
 
         public void Stop()
         {
             m_Listener = null;
-            EventSystem.S.UnRegister(EngineEventID.OnPanelUpdate, OnPanelUpdte);
+            EnumEventSystem.S.UnRegister(EngineEventID.OnPanelUpdate, OnPanelUpdte);
         }
 
         public bool isReady

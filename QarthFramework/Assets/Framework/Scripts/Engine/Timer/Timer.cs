@@ -53,7 +53,7 @@ namespace Qarth
             if (m_LastDay4Year != dayOfYear)
             {
                 m_LastDay4Year = dayOfYear;
-                EventSystem.S.Send(EngineEventID.OnDateUpdate);
+                EnumEventSystem.S.Send(EngineEventID.OnDateUpdate);
             }
         }
 

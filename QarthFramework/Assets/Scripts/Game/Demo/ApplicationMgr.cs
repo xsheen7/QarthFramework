@@ -13,13 +13,13 @@ public class ApplicationMgr : AbstractApplicationMgr<ApplicationMgr>
     {
         Log.i("ApplicationMgr init");
     }
-
-    //初始化第三方插件
+    
     protected override void ShowLogoPanel()
     {
         UIMgr.S.OpenPanel(UIID.LogoPanel);
     }
 
+    //初始化第三方插件
     protected override IEnumerator InitThirdLibConfig()
     {
         DOTween.Init(false, true, LogBehaviour.ErrorsOnly);
@@ -40,29 +40,18 @@ public class ApplicationMgr : AbstractApplicationMgr<ApplicationMgr>
     {
         AppConfig.S.InitAppConfig();
         ResMgr.S.Init();
+        I18Mgr.S.Init();
         UIRegister.RegisterUIPanel();
         TableRegister.RegisterTable();
         yield return TableModule.PreLoadTable(null);
         ShowLogoPanel();
+        yield return TableModule.DelayLoadTable(null);
     }
 
     //开始游戏
     protected override void StartGame()
     {
         UIMgr.S.ClosePanelAsUIID(UIID.LogoPanel);
-        Log.i("game start");
-
-        //延迟加载表格
-        if (TDArenaConfigTable.count <= 0)
-        {
-            TDTableMetaData[] table = new[] { TDArenaConfigTable.metaData };
-            StartCoroutine(TableModule.LoadTable(table, () =>
-            {
-                Log.i("arena table load finish:" +TDArenaConfigTable.GetData(1).id);
-            }));
-        }
-        
-        I18Mgr.S.SwitchLanguage(SystemLanguage.English);
-        Log.i(TDLanguageTable.Get("Common_Build"));
+        GameMgr.S.StartGame();
     }
 }

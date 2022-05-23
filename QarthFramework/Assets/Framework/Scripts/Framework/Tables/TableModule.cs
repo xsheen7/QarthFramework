@@ -38,6 +38,23 @@ namespace Qarth
             yield return 0;
         }
         
+        public static IEnumerator DelayLoadTable(Action onLoadFinish)
+        {
+            TableReadThreadWork readWork = CreateTableReadJobs(TableConfig.delayLoadTableArray);
+    
+            readWork.Start();
+            while (readWork.IsDone == false)
+            {
+                yield return 0;
+            }
+    
+            if (onLoadFinish != null)
+            {
+                onLoadFinish();
+            }
+            yield return 0;
+        }
+        
         public static IEnumerator LoadTable(TDTableMetaData[] dataArray, Action onLoadFinish)
         {
             m_IsLoading = true;

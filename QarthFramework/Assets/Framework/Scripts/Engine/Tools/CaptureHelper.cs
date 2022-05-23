@@ -64,7 +64,7 @@ namespace Qarth
             float height = screenPos2.y - screenPos.y;
             if (sendEvent)
             {
-                EventSystem.S.Send(EngineEventID.OnShareCaptureBegin);
+                EnumEventSystem.S.Send(EngineEventID.OnShareCaptureBegin);
             }
             yield return CaptureScreenTexture(prefixName, (int)screenPos.x, (int)screenPos.y, (int)width, (int)height, callBack, sendEvent);
         }
@@ -79,7 +79,7 @@ namespace Qarth
 
             if (sendEvent)
             {
-                EventSystem.S.Send(EngineEventID.OnShareCaptureEnd);
+                EnumEventSystem.S.Send(EngineEventID.OnShareCaptureEnd);
             }
 
             byte[] byt = t.EncodeToJPG();

@@ -309,7 +309,7 @@ namespace Qarth
 
                 if (m_CustomEventID > 0)
                 {
-                    EventSystem.S.Send(m_CustomEventID, this);
+                    EnumEventSystem.S.Send(m_CustomEventID, this);
                 }
 
                 if (!m_IsLoop)

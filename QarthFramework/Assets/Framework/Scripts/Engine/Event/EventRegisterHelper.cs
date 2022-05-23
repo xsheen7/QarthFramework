@@ -46,7 +46,7 @@ namespace Qarth
                 m_Listener = l;
             }
 
-            public void UnRegister(EventSystem es)
+            public void UnRegister(EnumEventSystem es)
             {
                 es.UnRegister(m_Key, m_Listener);
             }
@@ -54,7 +54,7 @@ namespace Qarth
         #endregion
 
         private List<EventRegisterUnit> m_DataList;
-        private EventSystem             m_EventSystem;
+        private EnumEventSystem             m_EventSystem;
         private bool                    m_CacheFlag = false;
 
         public EventRegisterHelper()
@@ -62,12 +62,12 @@ namespace Qarth
 
         }
 
-        public EventRegisterHelper(EventSystem system)
+        public EventRegisterHelper(EnumEventSystem system)
         {
             m_EventSystem = system;
         }
 
-        public EventSystem eventSystem
+        public EnumEventSystem eventSystem
         {
             get { return m_EventSystem; }
             set { m_EventSystem = value; }

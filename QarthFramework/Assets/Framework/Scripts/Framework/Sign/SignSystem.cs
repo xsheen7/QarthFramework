@@ -146,13 +146,13 @@ namespace Qarth
 
         public void InitSignSystem()
         {
-            EventSystem.S.Register(EngineEventID.OnDateUpdate, OnPassDayEvent);
+            EnumEventSystem.S.Register(EngineEventID.OnDateUpdate, OnPassDayEvent);
         }
 
         private void OnPassDayEvent(int key, params object[] args)
         {
             weekSignState.Check();
-            EventSystem.S.Send(EngineEventID.OnSignStateChange);
+            EnumEventSystem.S.Send(EngineEventID.OnSignStateChange);
         }
 
         public SignState weekSignState

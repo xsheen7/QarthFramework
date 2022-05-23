@@ -41,9 +41,18 @@ namespace Qarth
             PlayerPrefs.SetInt(LAN_KEY, (int)m_Language);
 
             CheckLanguageEnvironment();
+            
+            TDTableMetaData[] tables = new TDTableMetaData[]
+            {
+                TDLanguageTable.GetLanguageMetaData(),
+            };
 
-            //
-            EventSystem.S.Send(EngineEventID.OnLanguageChange);
+            ApplicationMgr.S.StartCoroutine(TableModule.LoadTable(tables, OnLanguageSwitchLoadFinish));
+        }
+
+        private void OnLanguageSwitchLoadFinish()
+        {
+            EnumEventSystem.S.Send(EngineEventID.OnLanguageChange);
         }
 
         private void CheckLanguageEnvironment()

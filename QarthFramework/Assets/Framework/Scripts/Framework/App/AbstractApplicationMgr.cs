@@ -28,7 +28,6 @@ namespace Qarth
         private float m_LoadTime;
         protected IEnumerator StartApp()
         {
-            I18Mgr.S.Init();
             m_LoadTime = Time.time;
             yield return InitFramework();
             Log.i("init framework time: " + (Time.time - m_LoadTime));
@@ -142,7 +141,7 @@ namespace Qarth
             {
                 m_OnApplicationQuit();
             }
-            EventSystem.S.Send(EngineEventID.OnApplicationQuit);
+            EnumEventSystem.S.Send(EngineEventID.OnApplicationQuit);
         }
 
 #if UNITY_EDITOR

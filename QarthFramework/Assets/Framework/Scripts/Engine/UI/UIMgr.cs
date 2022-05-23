@@ -28,7 +28,7 @@ namespace Qarth
         public delegate bool PanelCloseFilter(int panelID, int uiID);
 
         #region 字段
-        private EventSystem                 m_UIEventSystem = ObjectPool<EventSystem>.S.Allocate();
+        private EnumEventSystem                 m_UIEventSystem = ObjectPool<EnumEventSystem>.S.Allocate();
 
         private UIRoot                      m_UIRoot;
         private int                         m_NextPanelID = 0;
@@ -54,7 +54,7 @@ namespace Qarth
             get { return m_UIRoot; }
         }
 
-        public EventSystem uiEventSystem
+        public EnumEventSystem uiEventSystem
         {
             get
             {
@@ -823,7 +823,7 @@ System.Reflection.BindingFlags.Public);
                 }
             }
 
-            EventSystem.S.Send(EngineEventID.OnPanelUpdate);
+            EnumEventSystem.S.Send(EngineEventID.OnPanelUpdate);
         }
 
         private PanelInfo LoadPanelInfo(int uiID)
@@ -1092,7 +1092,7 @@ System.Reflection.BindingFlags.Public);
 #region 内部事件处理
         private void InitEventListener()
         {
-            EventSystem.S.Register(EngineEventID.BackKeyDown, OnBackKeyDownEvent);
+            EnumEventSystem.S.Register(EngineEventID.BackKeyDown, OnBackKeyDownEvent);
         }
 
         private void OnBackKeyDownEvent(int key, params object[] args)

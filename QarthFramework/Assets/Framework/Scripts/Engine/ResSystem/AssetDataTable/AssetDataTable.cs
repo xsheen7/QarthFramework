@@ -88,7 +88,7 @@ namespace Qarth
             {
                 package = new AssetDataPackage(key, path, System.DateTime.Now.Ticks);
                 m_AllAssetDataPackages.Add(package);
-                Log.i("#Create Config Group:" + key);
+                Log.i("#Create Res Group:" + key);
             }
 
             return package.AddAssetBundleName(name, depends, md5, fileSize, buildTime);

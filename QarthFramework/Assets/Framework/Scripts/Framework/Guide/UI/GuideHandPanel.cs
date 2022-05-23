@@ -43,7 +43,7 @@ namespace Qarth
         {
             if (m_Target == null || m_Target == transform) 
             {
-                EventSystem.S.Send(EngineEventID.OnWorldHandBeClick);
+                EnumEventSystem.S.Send(EngineEventID.OnWorldHandBeClick);
             }
         }
 
