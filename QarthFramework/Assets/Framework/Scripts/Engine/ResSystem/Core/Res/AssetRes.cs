@@ -9,7 +9,7 @@ using UnityEngine;
 
 using System.Collections;
 using System.Collections.Generic;
-using GameWish.Game;
+using MainGame;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -119,6 +119,7 @@ namespace Qarth
                 return false;
             }
 
+            UnHoldDependRes();
             m_Asset = obj;
 
             resState = eResState.kReady;
@@ -147,8 +148,6 @@ namespace Qarth
             UnityEngine.Object obj = abR.assetBundle.LoadAsset(m_Name);
             //timer.End();
 
-            UnHoldDependRes();
-
             if (obj == null)
             {
                 Log.e("Failed Load Asset:" + m_Name);
@@ -156,6 +155,7 @@ namespace Qarth
                 return false;
             }
 
+            UnHoldDependRes();
             m_Asset = obj;
 
             resState = eResState.kReady;

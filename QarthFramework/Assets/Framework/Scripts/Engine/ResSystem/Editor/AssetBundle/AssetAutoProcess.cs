@@ -100,7 +100,7 @@ namespace Qarth.Editor
 
         private static bool CheckIsRes4AssetBundle(string name)
         {
-            if (name.StartsWith("Assets/") && name.Contains("/Res/"))
+            if (name.StartsWith("Assets/Res/"))
             {
                 return true;
             }

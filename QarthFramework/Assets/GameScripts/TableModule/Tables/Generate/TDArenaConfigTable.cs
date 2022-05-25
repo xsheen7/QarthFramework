@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Qarth;
 
-namespace GameWish.Game
+namespace MainGame
 {
     public static partial class TDArenaConfigTable
     {

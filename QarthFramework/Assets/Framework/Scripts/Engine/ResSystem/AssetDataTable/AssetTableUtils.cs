@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 
 
-namespace GameWish.Game
+namespace MainGame
 {
 	public class AssetTableUtils
 	{

@@ -16,7 +16,7 @@ MonoBehaviour:
   m_ServerPort: 0
   m_ServerMode: 0
   m_AppMode: 0
-  m_LoadInEditor: 1
+  m_LoadInEditor: 0
   m_DebugSetting:
     m_DumpPath: 
     m_DumpToScreen: 0

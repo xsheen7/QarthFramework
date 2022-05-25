@@ -190,8 +190,6 @@ namespace Qarth.Editor
     //创建脚本
     public class ScriptCreatorEditor : UnityEditor.AssetModificationProcessor
     {
-        static string namespaceName = "GameWish.Game";
-
         /// <summary>
         /// 将要创建资源时会调用这个函数
         /// </summary>
@@ -201,30 +199,43 @@ namespace Qarth.Editor
             Debug.Log(path);
             AssetDatabase.DeleteAsset(path);
 
-            string str = path.Replace(".meta", "");
+            path = path.Replace(".meta", "");
 
-            string[] splitArgs = str.Split('.');
+            string[] splitArgs = path.Split('.');
+            //创建的是脚本文件
             if (splitArgs[splitArgs.Length - 1].Equals("cs"))
             {
-                //Debug.Log("导入的是脚本");
-                string[] newSplitArgs = str.Split('/');
+                string nameSapce = "";
+                
+                if (path.StartsWith("Assets/Framework"))
+                {
+                    nameSapce = "Qarth";
+                }
+                else if(path.StartsWith("Assets/GameScripts"))
+                {
+                    nameSapce = "MainGame";
+                }
+                
+                string[] newSplitArgs = path.Split('/');
                 bool isEditor = false;
                 foreach (var item in newSplitArgs)
                 {
                     if (item.Equals("Editor"))
                     {
-                        isEditor = true;
+                        if (!string.IsNullOrEmpty(nameSapce))
+                        {
+                            nameSapce += ".Editor";
+                        }
                         break;
-                        ;
                     }
                 }
-
-                if (isEditor) return;
-                ParseAndChangeScript(str.Substring(6, str.Length - 6));
+                
+                //6是Assets
+                ParseAndChangeScript(path.Substring(6, path.Length - 6),nameSapce);
             }
         }
 
-        private static void ParseAndChangeScript(string path)
+        private static void ParseAndChangeScript(string path,string namespaceName)
         {
             string str = File.ReadAllText(Application.dataPath + path);
             if (string.IsNullOrEmpty(str))

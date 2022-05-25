@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AppConfigPath: Resources/Config/AppConfig
   m_UIRootPath: Resources/UI/UIRoot
-  m_ABRelativePath: Assets/
+  m_ABRelativePath: export_bundles/
   m_ExportABConfigFile: asset_bindle_config.bin
   m_TableFolder: config/
   m_BuildProtoCSharpWinShell: proto/output_proto_csharp.bat
