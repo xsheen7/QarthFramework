@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.Linq;
-using GameWish.Game;
+using MainGame;
 using System.Text;
 #if UNITY_ANDROID
 using UnityEngine.Android;

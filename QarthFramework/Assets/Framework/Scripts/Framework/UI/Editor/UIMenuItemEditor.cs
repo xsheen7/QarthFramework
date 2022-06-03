@@ -2,7 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum UIID 
+namespace Qarth.Editor
 {
-    LogoPanel=0,
+    public class UIMenuItemEditor
+    {
+        
+    }
 }
+

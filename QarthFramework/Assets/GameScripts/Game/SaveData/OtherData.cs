@@ -4,7 +4,7 @@ using Qarth;
 using UnityEngine;
 
 
-namespace GameWish.Game
+namespace MainGame
 {
 	public class OtherData : IDataClass
 	{

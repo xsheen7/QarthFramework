@@ -5,12 +5,14 @@ using Qarth;
 using UnityEngine;
 
 
-namespace GameWish.Game
+namespace MainGame
 {
 	[TMonoSingletonAttribute("[App]/GameMgr")]
 	public class GameMgr : TMonoSingleton<GameMgr>
 	{
 		public SaveDataTable saveDataTable;
+
+		private ResLoader m_Loader;
 		
 		public void StartGame()
 		{
@@ -29,14 +31,9 @@ namespace GameWish.Game
 			});
 			
 			//加载资源
-			ResLoader loader = ResLoader.Allocate("res_test");
-			GameObject cubePrefab = loader.LoadSync("Cube") as GameObject;
+			m_Loader = ResLoader.Allocate("res_test");
+			GameObject cubePrefab = m_Loader.LoadSync("Cube") as GameObject;
 			Instantiate(cubePrefab);
-
-			this.CallWithDelay(() =>
-			{
-				loader.ReleaseRes("Cube");
-			}, 3);
 		}
 
 		private void Update()
@@ -51,6 +48,12 @@ namespace GameWish.Game
 				saveDataTable.otherDataHandler.data.SetAge(100);
 				//手动保存
 				saveDataTable.otherDataHandler.Save(true);
+			}
+
+			if (Input.GetKeyDown(KeyCode.C))
+			{
+				//注意卸载时机 如果实例化的物体还有 会丢失资源
+				m_Loader.Recycle2Cache();
 			}
 		}
 	}

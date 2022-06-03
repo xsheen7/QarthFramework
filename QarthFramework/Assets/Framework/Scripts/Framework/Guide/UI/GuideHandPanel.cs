@@ -10,7 +10,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine.UI;
-using GameWish.Game;
+using MainGame;
 
 namespace Qarth
 {

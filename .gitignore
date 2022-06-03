@@ -9,6 +9,9 @@
 [Bb]uilds/
 [Ll]ogs/
 [Uu]ser[Ss]ettings/
+zzzMyTest/
+/**/zzzMyTest.meta
+StreamingAssets/
 Assets/AssetStoreTools*
 
 # ide

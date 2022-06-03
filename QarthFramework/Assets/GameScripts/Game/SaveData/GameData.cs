@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Qarth;
 using UnityEngine;
 
-namespace GameWish.Game
+namespace MainGame
 {
     //游戏存档数据结构，需要的存档数据可以在下面列出
     //注意：不支持字典序列化 建议自定义数据结构

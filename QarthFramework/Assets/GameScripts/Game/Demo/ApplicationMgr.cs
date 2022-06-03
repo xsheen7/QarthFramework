@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
-using GameWish.Game;
+using MainGame;
 using Qarth;
 using UnityEngine;
 

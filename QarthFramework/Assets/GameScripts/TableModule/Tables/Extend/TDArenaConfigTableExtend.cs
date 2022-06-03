@@ -5,11 +5,11 @@ using System.Collections;
 using System.Collections.Generic;
 using Qarth;
 
-namespace GameWish.Game
+namespace MainGame
 {
-    public partial class TDArenaConfig
+    public partial class TDArenaConfigTable
     {
-        public void Reset()
+        static void CompleteRowAdd(TDArenaConfig tdData)
         {
 
         }
