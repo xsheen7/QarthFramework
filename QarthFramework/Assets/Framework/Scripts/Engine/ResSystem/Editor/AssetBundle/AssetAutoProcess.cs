@@ -62,6 +62,7 @@ namespace Qarth.Editor
             }
         }
 
+        //自动处理assets/res/下文件的ab名字
         private static void ProcessAssetBundleTag(string assetPath, bool tag)
         {
             AssetImporter ai = AssetImporter.GetAtPath(assetPath);

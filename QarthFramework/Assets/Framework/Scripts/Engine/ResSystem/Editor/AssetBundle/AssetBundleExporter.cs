@@ -4,10 +4,10 @@
 //  Blog:        http://blog.csdn.net/snowcoldgame
 //  Author:      SnowCold
 //  E-mail:      snowcold.ouyang@gmail.com
+
 using System;
 using UnityEngine;
 using UnityEditor;
-
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -17,107 +17,9 @@ namespace Qarth.Editor
 {
     public class AssetBundleExporter
     {
+        #region 构建所有AssetBundle
 
-#region 处理AssetBundle Name
-        //自动设置选中目录下的AssetBundle Name
-        //[MenuItem("Assets/Qarth/Asset/标记AB名字[文件夹])")]
-        public static void GenAssetNameAsFolderName()
-        {
-            string selectPath = EditorUtils.GetSelectedDirAssetsPath();
-            if (selectPath == null)
-            {
-                Log.w("Not Select Any Folder!");
-                return;
-            }
-
-            AutoGenAssetNameInFolder(selectPath, true);
-            Log.i("Finish GenAssetNameAsFolderName.");
-        }
-
-        //自动设置选中目录下的AssetBundle Name
-        //[MenuItem("Assets/Qarth/Asset/标记AB名字[文件])")]
-        public static void GenAssetNameAsFileName()
-        {
-            string selectPath = EditorUtils.GetSelectedDirAssetsPath();
-            if (selectPath == null)
-            {
-                Log.w("Not Select Any Folder!");
-                return;
-            }
-
-            AutoGenAssetNameInFolder(selectPath, false);
-
-            AssetDatabase.SaveAssets();
-            Log.i("Finish GenAssetNameAsFileName.");
-        }
-
-        /// <summary>
-        // 递归处理文件夹下所有Asset 文件
-        /// </summary>
-        /// <param name="folderPath">Asset目录下文件夹</param>
-        private static void AutoGenAssetNameInFolder(string folderPath, bool useFolderName)
-        {
-            if (folderPath == null)
-            {
-                Log.w("Folder Path Is Null!");
-                return;
-            }
-
-            Log.i("Start Set Asset Name. Folder:" + folderPath);
-            string workPath = EditorUtils.AssetsPath2ABSPath(folderPath); //EditUtils.GetFullPath4AssetsPath(folderPath);
-            string assetBundleName = EditorUtils.AssetPath2ReltivePath(folderPath).ToLower(); //EditUtils.GetReltivePath4AssetPath(folderPath).ToLower();
-            assetBundleName = assetBundleName.Replace("resources/", "");
-            //处理文件
-            var filePaths = Directory.GetFiles(workPath);
-            for (int i = 0; i < filePaths.Length; ++i)
-            {
-                if (!AssetFileFilter.IsAsset(filePaths[i]))
-                {
-                    continue;
-                }
-
-                string fileName = Path.GetFileName(filePaths[i]);
-
-                string fullFileName = string.Format("{0}/{1}", folderPath, fileName);
-
-                AssetImporter ai = AssetImporter.GetAtPath(fullFileName);
-                if (ai == null)
-                {
-                    Log.e("Not Find Asset:" + fullFileName);
-                    continue;
-                }
-                else
-                {
-                    if (useFolderName)
-                    {
-                        ai.assetBundleName = assetBundleName + ".bundle";
-                    }
-                    else
-                    {
-                        ai.assetBundleName = string.Format("{0}/{1}.bundle", assetBundleName, PathHelper.FileNameWithoutSuffix(fileName));
-                    }
-                }
-                
-                //ai.SaveAndReimport();
-                //Log.i("Success Process Asset:" + fileName);
-            }
-
-            //递归处理文件夹
-            var dirs = Directory.GetDirectories(workPath);
-            for (int i = 0; i < dirs.Length; ++i)
-            {
-                string fileName = Path.GetFileName(dirs[i]);
-
-                fileName = string.Format("{0}/{1}", folderPath, fileName);
-                AutoGenAssetNameInFolder(fileName, useFolderName);
-            }
-        }
-#endregion
-
-#region 构建AssetBundle
-
-#region 构建所有AssetBundle
-        [MenuItem("Assets/Qarth/Res/构建AB[全局])")]
+        [MenuItem("Assets/Qarth/Res/构建AB[全局增量])")]
         public static void BuildAllAssetBundles()
         {
             Log.i("Start Build All AssetBundles.");
@@ -140,18 +42,16 @@ namespace Qarth.Editor
             buildTarget = BuildTarget.StandaloneWindows;
 #endif
 
-            BuildPipeline.BuildAssetBundles("Assets/" + ProjectPathConfig.exportRootFolder, BuildAssetBundleOptions.ChunkBasedCompression, buildTarget);
+            BuildPipeline.BuildAssetBundles("Assets/" + ProjectPathConfig.exportRootFolder,
+                BuildAssetBundleOptions.ChunkBasedCompression, buildTarget);
 
             BuildDataTable();
         }
-#endregion
-
-#region 指定具体文件构建
 
         [MenuItem("Assets/Qarth/Res/构建AB[当前文件夹]")]
         public static void BuildAssetBundlesInSelectFolder()
         {
-            string selectPath = EditorUtils.GetSelectedDirAssetsPath();//.CurrentSelectFolder;
+            string selectPath = EditorUtils.GetSelectedDirAssetsPath(); //.CurrentSelectFolder;
             if (selectPath == null)
             {
                 Log.w("Not Select Any Folder!");
@@ -174,7 +74,7 @@ namespace Qarth.Editor
             CollectABInFolder(selectPath, builderData);
 
             List<AssetBundleBuild> builderList = new List<AssetBundleBuild>();
-            foreach(var cell in builderData)
+            foreach (var cell in builderData)
             {
                 string abName = cell.Key;
                 AssetBundleBuild build = new AssetBundleBuild();
@@ -279,12 +179,51 @@ namespace Qarth.Editor
             }
         }
 
-#endregion
+        #endregion
 
-#endregion
-
-#region 构建 AssetDataTable
-
+        #region 加密bundle
+        // [MenuItem("Assets/Qarth/Res/加密bundle")]
+        // public static void EncryptBundle()
+        // {
+        //     AssetDatabase.RemoveUnusedAssetBundleNames();
+        //
+        //     string[] abNames = AssetDatabase.GetAllAssetBundleNames();
+        //
+        //     if (abNames != null && abNames.Length > 0)
+        //     {
+        //         for (int i = 0; i < abNames.Length; ++i)
+        //         {
+        //             string abPath = Application.dataPath + "/" + ProjectPathConfig.exportRootFolder + abNames[i];
+        //
+        //             string[] depends = AssetDatabase.GetAssetBundleDependencies(abNames[i], false);
+        //
+        //             FileInfo info = new FileInfo(abPath);
+        //             if (!info.Exists)
+        //             {
+        //                 continue;
+        //             }
+        //             DoEncryptBundle(abPath);
+        //         }
+        //     }
+        // }
+        //
+        // private static void DoEncryptBundle(string filePath)
+        // {
+        //     byte[] oldData = File.ReadAllBytes(filePath);
+        //     int newOldLen = 8 + oldData.Length;//这个空字节数可以自己指定,示例指定8个字节
+        //     var newData = new byte[newOldLen];
+        //     for (int tb = 0; tb < oldData.Length; tb++)
+        //     {
+        //         newData[8+ tb] = oldData[tb];
+        //     }
+        //     FileStream fs = File.OpenWrite(filePath);//打开写入进去
+        //     fs.Write(newData, 0, newOldLen);
+        //     fs.Close();
+        //     Log.i("encrypt bundle success:"+filePath);
+        // }
+        #endregion
+        
+        #region 构建 AssetDataTable
         [MenuItem("Assets/Qarth/Res/生成Asset清单")]
         public static void BuildDataTable()
         {
@@ -296,70 +235,70 @@ namespace Qarth.Editor
             table.Save(ProjectPathConfig.absExportRootFolder);
         }
 
-		[MenuItem("Assets/Qarth/Res/清理无效AB")]
-		public static void RemoveInvalidAssetBundle()
-		{
-			AssetDataTable table = new AssetDataTable();
+        [MenuItem("Assets/Qarth/Res/清理无效AB")]
+        public static void RemoveInvalidAssetBundle()
+        {
+            AssetDataTable table = new AssetDataTable();
 
-			ProcessAssetBundleRes(table, null);
+            ProcessAssetBundleRes(table, null);
 
-			Log.i("#Start Remove Invalid AssetBundle");
+            Log.i("#Start Remove Invalid AssetBundle");
 
-			RemoveInvalidAssetBundleInner(ProjectPathConfig.absExportRootFolder, table);
+            RemoveInvalidAssetBundleInner(ProjectPathConfig.absExportRootFolder, table);
 
-			Log.i("#Success Remove Invalid AssetBundle.");
-		}
+            Log.i("#Success Remove Invalid AssetBundle.");
+        }
 
-		private static void RemoveInvalidAssetBundleInner(string absPath, AssetDataTable table)
-		{
-			string[] dirs = Directory.GetDirectories(absPath);
+        private static void RemoveInvalidAssetBundleInner(string absPath, AssetDataTable table)
+        {
+            string[] dirs = Directory.GetDirectories(absPath);
 
-			if (dirs != null && dirs.Length > 0)
-			{
-				for (int i = 0; i < dirs.Length; ++i)
-				{
-					RemoveInvalidAssetBundleInner(dirs[i], table);
-				}
-			}
+            if (dirs != null && dirs.Length > 0)
+            {
+                for (int i = 0; i < dirs.Length; ++i)
+                {
+                    RemoveInvalidAssetBundleInner(dirs[i], table);
+                }
+            }
 
-			string[] files = Directory.GetFiles(absPath);
-			if (files != null && files.Length > 0)
-			{
-				for (int i = 0; i < files.Length; ++i)
-				{
-					string p = AssetBundlePath2ABName(files[i]);
-					if (!AssetFileFilter.IsAssetBundle(p))
-					{
-						continue;
-					}
+            string[] files = Directory.GetFiles(absPath);
+            if (files != null && files.Length > 0)
+            {
+                for (int i = 0; i < files.Length; ++i)
+                {
+                    string p = AssetBundlePath2ABName(files[i]);
+                    if (!AssetFileFilter.IsAssetBundle(p))
+                    {
+                        continue;
+                    }
 
-					if (table.GetABUnit(p) == null)
-					{
-						File.Delete(files[i]);
-						File.Delete(files[i] + ".meta");
-						File.Delete(files[i] + ".manifest");
-						File.Delete(files[i] + ".manifest.meta");
+                    if (table.GetABUnit(p) == null)
+                    {
+                        File.Delete(files[i]);
+                        File.Delete(files[i] + ".meta");
+                        File.Delete(files[i] + ".manifest");
+                        File.Delete(files[i] + ".manifest.meta");
 
-						Log.e("Delete Invalid AB:" + p);
-					}
-				}
+                        Log.e("Delete Invalid AB:" + p);
+                    }
+                }
 
-				files = Directory.GetFiles(absPath);
-				if (files == null || files.Length == 0)
-				{
-					Directory.Delete(absPath);
-				}
-			}
-			else
-			{
-				Directory.Delete(absPath);
-			}
-		}
+                files = Directory.GetFiles(absPath);
+                if (files == null || files.Length == 0)
+                {
+                    Directory.Delete(absPath);
+                }
+            }
+            else
+            {
+                Directory.Delete(absPath);
+            }
+        }
 
-		private static string AssetBundlePath2ABName(string absPath)
-		{
-			return ProjectPathConfig.AssetBundleUrl2Name(absPath).Replace("\\", "/");
-		}
+        private static string AssetBundlePath2ABName(string absPath)
+        {
+            return ProjectPathConfig.AssetBundleUrl2Name(absPath).Replace("\\", "/");
+        }
 
         /*
         [MenuItem("Assets/Qarth/Asset/生成Asset清单[当前文件夹]")]
@@ -437,6 +376,7 @@ namespace Qarth.Editor
                 {
                     sb.Append(retVal[i].ToString("x2"));
                 }
+
                 return sb.ToString();
             }
             catch (Exception ex)
@@ -449,7 +389,6 @@ namespace Qarth.Editor
 
         private static void ProcessTableConfig(AssetDataTable table, string folder)
         {
-
             AssetDataPackage group = null;
 
             DirectoryInfo direInfo = new DirectoryInfo(folder);
@@ -468,8 +407,9 @@ namespace Qarth.Editor
                 if (AssetFileFilter.IsConfigTable(info.FullName))
                 {
                     string md5 = GetMD5HashFromFile(info.FullName);
-                    long buildTime = DateTime.Now.Ticks;//info.LastWriteTime.Ticks;
-                    table.AddAssetBundleName(ProjectPathConfig.tableFolder + info.Name, null, md5, (int)info.Length, buildTime, out group);
+                    long buildTime = DateTime.Now.Ticks; //info.LastWriteTime.Ticks;
+                    table.AddAssetBundleName(ProjectPathConfig.tableFolder + info.Name, null, md5, (int)info.Length,
+                        buildTime, out group);
                 }
             }
 
@@ -498,14 +438,16 @@ namespace Qarth.Editor
                     string[] depends = AssetDatabase.GetAssetBundleDependencies(abNames[i], false);
 
                     FileInfo info = new FileInfo(abPath);
-					if (!info.Exists)
-					{
-						continue;
-					}
+                    if (!info.Exists)
+                    {
+                        continue;
+                    }
+
                     string md5 = GetMD5HashFromFile(abPath);
                     long buildTime = DateTime.Now.Ticks; //info.LastWriteTime.Ticks;
 
-                    abIndex = table.AddAssetBundleName(abNames[i], depends, md5, (int)info.Length, buildTime, out group);
+                    abIndex = table.AddAssetBundleName(abNames[i], depends, md5, (int)info.Length, buildTime,
+                        out group);
                     if (abIndex < 0)
                     {
                         continue;
@@ -529,7 +471,7 @@ namespace Qarth.Editor
 
             table.Dump();
         }
-#endregion
 
+        #endregion
     }
 }
