@@ -29,9 +29,10 @@ namespace Qarth.Editor
             }
         }
 
+        //相对于/asset的路径
         public static string AssetsPath2ABSPath(string assetsPath)
         {
-            string assetRootPath = System.IO.Path.GetFullPath(Application.dataPath);
+            string assetRootPath = Path.GetFullPath(Application.dataPath);
             assetRootPath = assetRootPath.Substring(0, assetRootPath.Length - 6) + assetsPath;
             return assetRootPath.Replace("\\", "/");
         }
@@ -44,14 +45,17 @@ namespace Qarth.Editor
         }
 
 
-        public static string AssetPath2ReltivePath(string path)
+        //移除assets/Res/前缀
+        public static string AssetPath2ResReltivePath(string path)
         {
             if (path == null)
             {
                 return null;
             }
 
-            return path.Replace("Assets" + Path.DirectorySeparatorChar, "");
+            path = path.Replace("Assets" + Path.DirectorySeparatorChar, "");
+            path = path.Replace("\\", "/");
+            return path;
         }
 
         public static bool ExcuteCmd(string toolName, string args, bool isThrowExcpetion = true)
@@ -64,11 +68,11 @@ namespace Qarth.Editor
             process.StartInfo.RedirectStandardError = true;
             process.StartInfo.UseShellExecute = false;
             process.Start();
-            OuputProcessLog(process, isThrowExcpetion);
+            OutputProcessLog(process, isThrowExcpetion);
             return true;
         }
 
-        public static void OuputProcessLog(System.Diagnostics.Process p, bool isThrowExcpetion)
+        public static void OutputProcessLog(System.Diagnostics.Process p, bool isThrowExcpetion)
         {
             string standardError = string.Empty;
             p.BeginErrorReadLine();

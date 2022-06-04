@@ -67,12 +67,17 @@ namespace Qarth.Editor
             }
         }
 
-        //把UI图片设置为只读，减少内存占用
+        //导入图片前
         public void OnPreprocessTexture()
         {
-            UnityEditor.TextureImporter importer = this.assetImporter as UnityEditor.TextureImporter;
+            TextureImporter importer = this.assetImporter as TextureImporter;
             if (importer == null)
                 return;
+            if (importer.assetPath.Contains("UI"))
+            {
+                importer.textureType = TextureImporterType.Sprite;
+            }
+            
             var andSettings = new TextureImporterPlatformSettings();
             var iosSettings = new TextureImporterPlatformSettings();
             andSettings.name = "Android";
@@ -89,5 +94,6 @@ namespace Qarth.Editor
             importer.SetPlatformTextureSettings(andSettings);
             importer.SetPlatformTextureSettings(iosSettings);
         }
+
     }
 }

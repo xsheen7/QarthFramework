@@ -130,7 +130,7 @@ namespace Qarth.Editor
 
             Log.i("Start Set Asset Name. Folder:" + folderPath);
             string workPath = EditorUtils.AssetsPath2ABSPath(folderPath).Replace("\\", "/"); //EditUtils.GetFullPath4AssetsPath(folderPath);
-            string assetBundleName = EditorUtils.AssetPath2ReltivePath(folderPath).ToLower(); //EditUtils.GetReltivePath4AssetPath(folderPath).ToLower();
+            string assetBundleName = EditorUtils.AssetPath2ResReltivePath(folderPath).ToLower(); //EditUtils.GetReltivePath4AssetPath(folderPath).ToLower();
             assetBundleName = assetBundleName.Replace("resources/", "");
             //处理文件
             var filePaths = Directory.GetFiles(workPath);

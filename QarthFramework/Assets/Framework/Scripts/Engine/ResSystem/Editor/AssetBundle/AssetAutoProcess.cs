@@ -75,15 +75,34 @@ namespace Qarth.Editor
             string fullPath = EditorUtils.AssetsPath2ABSPath(assetPath);
             if (Directory.Exists(fullPath))
             {
+                //文件夹路径返回
                 return;
             }
 
             if (tag)
             {
                 string dirName = Path.GetDirectoryName(assetPath);
-                string assetBundleName = EditorUtils.AssetPath2ReltivePath(dirName).ToLower(); //EditUtils.GetReltivePath4AssetPath(folderPath).ToLower();
-                assetBundleName = assetBundleName.Replace("resources/", "");
+               
+                string assetBundleName = EditorUtils.AssetPath2ResReltivePath(dirName).ToLower(); //EditUtils.GetReltivePath4AssetPath(folderPath).ToLower();
+                assetBundleName = assetBundleName.Replace("/resources", "");
 
+                if (assetBundleName.Contains("atlas"))
+                {
+                    int index = fullPath.IndexOf("/Atlas");
+                    string atlasPath = fullPath.Substring(0,index+6);
+                    DirectoryInfo dicInfo = new DirectoryInfo(atlasPath);
+                    if (dicInfo.GetDirectories().Length > 0)
+                    {
+                        Log.e("ui atlas folder not should have child folders!!!");
+                        return;
+                    }
+                    
+                    if (!assetBundleName.Contains("atlascommon"))
+                    {
+                        assetBundleName = assetBundleName.Replace("/atlas", "");
+                    }
+                }
+                
                 if (assetPath.Contains("FolderMode"))
                 {
                     ai.assetBundleName = assetBundleName + ".bundle";
