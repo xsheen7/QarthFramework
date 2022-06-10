@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Qarth;
 using UnityEngine;
 
-
 namespace MainGame
 {
+	//游戏存档数据清单
 	public class SaveDataTable
 	{
 		public DataClassHandler<GameData> gameDataHandler;
