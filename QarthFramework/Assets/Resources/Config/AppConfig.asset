@@ -12,17 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 791d9d1de833edd409bdcad9aadc6a37, type: 3}
   m_Name: AppConfig
   m_EditorClassIdentifier: 
-  m_ServerIp: 
-  m_ServerPort: 0
-  m_ServerMode: 0
-  m_AppMode: 1
-  m_LoadInEditor: 1
-  m_DebugSetting:
+  appMode: 1
+  loadInEditor: 1
+  debugSetting:
     m_DumpPath: 
     m_DumpToScreen: 0
     m_DumpToFile: 1
-  m_LogLevel: 5
-  m_IsGuideActive: 0
-  m_IsResUpdateActive: 0
-  m_ResUpdateVersion: 
-  m_WebsocketUri: 
+  logLevel: 5
+  isGuideActive: 0
