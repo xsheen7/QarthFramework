@@ -38,7 +38,7 @@ namespace Qarth
             yield return InitAppEnvironment();
             Log.i("init app env time: " + (Time.time - m_LoadTime));
             m_LoadTime = Time.time;
-            StartGame();
+            yield return StartGame();
         }
 
         #region 子类实现
@@ -51,7 +51,7 @@ namespace Qarth
 
         protected abstract IEnumerator InitFramework();
 
-        protected abstract void StartGame();
+        protected abstract IEnumerator StartGame();
 
         #endregion
 

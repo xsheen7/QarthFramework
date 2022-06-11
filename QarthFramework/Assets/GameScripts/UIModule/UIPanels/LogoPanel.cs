@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Qarth;
@@ -8,22 +9,39 @@ namespace MainGame
 {
     public class LogoPanel : AbstractPanel
     {
-        [SerializeField] private Button m_CloseBtn;
+        [SerializeField] private Image m_FillImg;
+
+        private bool m_Refresh;
+        private float m_FillAmount;
 
         protected override void OnUIInit()
         {
             base.OnUIInit();
-            m_CloseBtn.onClick.AddListener(CloseSelfPanel);
         }
 
         protected override void OnOpen()
         {
             base.OnOpen();
+            m_Refresh = true;
         }
 
         protected override void OnClose()
         {
             base.OnClose();
+            m_Refresh = false;
+        }
+
+        private void Update()
+        {
+            if (m_Refresh)
+            {
+                if (m_FillAmount < 1)
+                {
+                    m_FillAmount += 0.02f;
+                }
+
+                m_FillImg.fillAmount = m_FillAmount;
+            }
         }
     }
 }
