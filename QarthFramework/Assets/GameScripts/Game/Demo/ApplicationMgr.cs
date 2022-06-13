@@ -42,9 +42,9 @@ public class ApplicationMgr : AbstractApplicationMgr<ApplicationMgr>
         ResMgr.S.Init();
         I18Mgr.S.Init();
         UIRegister.RegisterUIPanel();
+        ShowLogoPanel();
         TableRegister.RegisterTable();
         yield return TableModule.PreLoadTable(null);
-        ShowLogoPanel();
         yield return TableModule.DelayLoadTable(null);
     }
 

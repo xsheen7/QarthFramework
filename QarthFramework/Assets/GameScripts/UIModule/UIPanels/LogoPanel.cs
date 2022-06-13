@@ -19,6 +19,7 @@ namespace MainGame
         protected override void OnOpen()
         {
             base.OnOpen();
+            Debug.Log("logo panel show:" + Time.time);
         }
 
         protected override void OnClose()
