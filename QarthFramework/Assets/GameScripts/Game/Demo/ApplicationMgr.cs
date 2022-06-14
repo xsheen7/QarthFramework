@@ -49,8 +49,9 @@ public class ApplicationMgr : AbstractApplicationMgr<ApplicationMgr>
     }
 
     //开始游戏
-    protected override void StartGame()
+    protected override IEnumerator StartGame()
     {
+        yield return new WaitForSeconds(1);
         UIMgr.S.ClosePanelAsUIID(UIID.LogoPanel);
         GameMgr.S.StartGame();
     }

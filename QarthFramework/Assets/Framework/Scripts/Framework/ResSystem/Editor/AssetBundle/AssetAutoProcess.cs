@@ -88,15 +88,6 @@ namespace Qarth.Editor
 
                 if (assetBundleName.Contains("atlas"))
                 {
-                    int index = fullPath.IndexOf("/Atlas");
-                    string atlasPath = fullPath.Substring(0,index+6);
-                    DirectoryInfo dicInfo = new DirectoryInfo(atlasPath);
-                    if (dicInfo.GetDirectories().Length > 0)
-                    {
-                        Log.e("ui atlas folder not should have child folders!!!");
-                        return;
-                    }
-                    
                     if (!assetBundleName.Contains("atlascommon"))
                     {
                         assetBundleName = assetBundleName.Replace("/atlas", "");
